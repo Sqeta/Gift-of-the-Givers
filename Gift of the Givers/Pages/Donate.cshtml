@@ -1,0 +1,127 @@
+﻿@page
+@model Gift_of_the_Givers.Pages.DonateModel
+
+@{
+    ViewData["Title"] = "Donate";
+}
+
+<div class="donate-page">
+
+    <section class="donate-hero">
+        <div class="container text-center">
+            <h1>Make a Difference</h1>
+            <p>
+                Your donation helps support communities affected by disasters and emergencies.
+            </p>
+        </div>
+    </section>
+
+    <section class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="donation-card">
+
+                    <h2 class="text-center mb-4">Donation Details</h2>
+
+                    <form method="post">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Donation Type</label>
+
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="DonationType"
+                                       id="oneTime"
+                                       value="One-Time"
+                                       checked />
+
+                                <label class="form-check-label" for="oneTime">
+                                    One-Time Donation
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="DonationType"
+                                       id="recurring"
+                                       value="Recurring" />
+
+                                <label class="form-check-label" for="recurring">
+                                    Recurring Donation
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Donation Amount</label>
+
+                            <input type="number"
+                                   class="form-control"
+                                   name="Amount"
+                                   placeholder="Enter donation amount"
+                                   min="1"
+                                   required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Currency</label>
+
+                            <select class="form-select" name="Currency" required>
+                                <option value="">Select currency</option>
+                                <option value="ZAR">ZAR - South African Rand</option>
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="EUR">EUR - Euro</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Full Name</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="DonorName"
+                                   placeholder="Enter your full name" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Email Address</label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   name="Email"
+                                   placeholder="Enter your email address" />
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="anonymous"
+                                   name="IsAnonymous"
+                                   value="true" />
+
+                            <label class="form-check-label" for="anonymous">
+                                Donate anonymously
+                            </label>
+                        </div>
+
+                        <button type="submit"
+                                class="btn donate-submit-btn w-100">
+                            Complete Donation
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

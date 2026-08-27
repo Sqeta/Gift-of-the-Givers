@@ -1,0 +1,225 @@
+﻿@page
+@model Gift_of_the_Givers.Pages.ReliefUpdatesModel
+
+@{
+    ViewData["Title"] = "Relief Updates";
+}
+
+<div class="relief-page">
+
+    <!-- HEADER -->
+    <header class="relief-header">
+
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <div class="relief-brand">
+                <h2>Gift of the Givers</h2>
+            </div>
+
+            <nav class="relief-nav">
+
+                <a asp-page="/Index">
+                    Home
+                </a>
+
+                <a asp-page="/Donate">
+                    Donate
+                </a>
+
+                <a asp-page="/Volunteer">
+                    Volunteer
+                </a>
+
+                <a asp-page="/ReliefUpdates"
+                   class="active">
+                    Relief Updates
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- HERO -->
+    <section class="relief-hero">
+
+        <div class="container text-center">
+
+            <span class="relief-badge">
+                LIVE RELIEF INFORMATION
+            </span>
+
+            <h1>
+                Relief Project Updates
+            </h1>
+
+            <p>
+                Follow the latest humanitarian relief activities and
+                emergency response efforts being carried out by our teams.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- UPDATES -->
+    <section class="container py-5">
+
+        <div class="relief-section-heading text-center">
+
+            <h2>
+                Latest Updates
+            </h2>
+
+            <p>
+                Stay informed about ongoing disaster relief projects
+                and community support operations.
+            </p>
+
+        </div>
+
+
+        @if (Model.Updates.Count == 0)
+        {
+            <div class="no-relief-updates">
+
+                <div class="no-update-icon">
+                    !
+                </div>
+
+                <h3>
+                    No Relief Updates Yet
+                </h3>
+
+                <p>
+                    There are currently no relief project updates available.
+                    Please check back again later.
+                </p>
+
+                <a asp-page="/Index"
+                   class="btn relief-home-button">
+
+                    Return Home
+
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="row">
+
+                @foreach (var update in Model.Updates)
+                {
+                    <div class="col-lg-6 mb-4">
+
+                        <div class="public-update-card">
+
+                            <div class="public-update-top">
+
+                                <span class="update-status">
+                                    ACTIVE RELIEF
+                                </span>
+
+                                <span class="update-date">
+                                    @update.DatePosted.ToString("dd MMM yyyy")
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                @update.ProjectName
+                            </h3>
+
+
+                            <p class="public-update-message">
+                                @update.UpdateMessage
+                            </p>
+
+
+                            <div class="public-update-footer">
+
+                                <span>
+                                    Posted by Gift of the Givers Relief Team
+                                </span>
+
+                                <span>
+                                    @update.DatePosted.ToString("HH:mm")
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+
+    </section>
+
+
+    <!-- CALL TO ACTION -->
+    <section class="relief-cta">
+
+        <div class="container text-center">
+
+            <h2>
+                Help Us Make a Difference
+            </h2>
+
+            <p>
+                Your support helps us respond faster when communities
+                are affected by disasters and emergencies.
+            </p>
+
+            <div class="mt-4">
+
+                <a asp-page="/Donate"
+                   class="btn relief-donate-btn">
+
+                    Donate Now
+
+                </a>
+
+                <a asp-page="/Volunteer"
+                   class="btn relief-volunteer-btn">
+
+                    Become a Volunteer
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="relief-footer">
+
+        <div class="container text-center">
+
+            <h4>
+                Gift of the Givers
+            </h4>
+
+            <p>
+                Relief Management System
+            </p>
+
+            <small>
+                &copy; 2026 Gift of the Givers Foundation
+            </small>
+
+        </div>
+
+    </footer>
+
+</div>

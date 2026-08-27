@@ -1,0 +1,211 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<header class="main-header">
+    <div class="container d-flex justify-content-between align-items-center py-3">
+        <h2 class="m-0">Gift of the Givers</h2>
+
+        <nav>
+
+            <a asp-page="/Index">
+                Home
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+            <a asp-page="/Donate">
+                Donate
+            </a>
+
+            <a asp-page="/Volunteer">
+                Volunteer
+            </a>
+
+            <a asp-page="/ReliefUpdates">
+                Relief Updates
+            </a>
+
+            <a href="#contact">
+                Contact
+            </a>
+
+
+            @if (User.Identity != null &&
+                        User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Employee"))
+                {
+                    <a asp-page="/EmployeeDashboard">
+                        Dashboard
+                    </a>
+                }
+
+                <form method="post"
+                      asp-page="/Logout"
+                      class="nav-logout-form">
+
+                    <button type="submit"
+                            class="nav-logout-button">
+                        Logout
+                    </button>
+
+                </form>
+            }
+            else
+            {
+                <a asp-page="/Login">
+                    Login
+                </a>
+
+                <a asp-page="/Register">
+                    Register
+                </a>
+            }
+
+        </nav>
+    </div>
+</header>
+
+<section class="hero-section">
+    <div class="container text-center py-5">
+        <h1>Hope in Action</h1>
+
+        <p>
+            Supporting communities affected by disasters through fast,
+            organised and compassionate relief.
+        </p>
+
+        <div class="mt-4">
+            <a asp-page="/Donate" class="btn btn-primary me-2">
+                Donate Now
+            </a>
+
+            <a asp-page="/Volunteer" class="btn btn-outline-primary">
+                Become a Volunteer
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="container py-5">
+
+    <div class="text-center">
+
+        <h2>About the Foundation</h2>
+
+        <p>
+            Gift of the Givers provides humanitarian assistance to communities
+            affected by disasters and emergencies. This platform helps coordinate
+            volunteers, donations and relief projects more efficiently.
+        </p>
+
+    </div>
+
+</section>
+
+<section class="container py-5">
+
+    <div class="row text-center">
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card p-4 h-100">
+
+                <h3>Volunteers</h3>
+
+                <p>
+                    Register your skills and availability to assist communities
+                    in need.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card p-4 h-100">
+
+                <h3>Donations</h3>
+
+                <p>
+                    Support relief operations through one-time or recurring
+                    donations.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card p-4 h-100">
+
+                <h3>Relief Projects</h3>
+
+                <p>
+                    Stay informed about ongoing humanitarian and disaster-relief
+                    operations.
+                </p>
+
+                <div class="mt-auto pt-3">
+
+                    <a asp-page="/ReliefUpdates"
+                       class="btn btn-primary">
+
+                        View Relief Updates
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="donate" class="container py-5 text-center">
+
+    <h2>Make a Difference</h2>
+
+    <p>
+        Your contribution can help provide essential support during emergencies.
+    </p>
+
+    <button class="btn btn-primary">
+        Donate
+    </button>
+
+</section>
+
+<section id="volunteer" class="container py-5 text-center">
+
+    <h2>Volunteer With Us</h2>
+
+    <p>
+        Share your skills and availability to support disaster-relief operations.
+    </p>
+
+    <a asp-page="/Volunteer"
+       class="btn btn-outline-primary">
+        Register as Volunteer
+    </a>
+
+</section>
+
+<footer id="contact" class="text-center py-4">
+
+    <p class="mb-0">
+        &copy; 2026 Gift of the Givers Relief Management System
+    </p>
+
+</footer>

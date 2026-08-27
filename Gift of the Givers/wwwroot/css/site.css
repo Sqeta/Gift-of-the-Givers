@@ -1,0 +1,1153 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f7f7f7;
+    color: #222;
+}
+
+/* HEADER */
+
+.main-header {
+    background-color: #ffffff;
+    border-bottom: 3px solid #d71920;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+    .main-header h2 {
+        font-weight: 700;
+        color: #d71920;
+    }
+
+    .main-header nav {
+        display: flex;
+        gap: 25px;
+    }
+
+        .main-header nav a {
+            text-decoration: none;
+            color: #222;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+            .main-header nav a:hover {
+                color: #d71920;
+            }
+
+/* HERO */
+
+.hero-section {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient( rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0.70) ), url('/images/relief-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+    .hero-section h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .hero-section p {
+        font-size: 1.25rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-section .btn {
+        padding: 12px 28px;
+        font-size: 1.05rem;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+
+/* BUTTONS */
+
+.btn-primary {
+    background-color: #d71920;
+    border-color: #d71920;
+}
+
+    .btn-primary:hover {
+        background-color: #b8141a;
+        border-color: #b8141a;
+    }
+
+.btn-outline-primary {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #ffffff;
+        border-color: #ffffff;
+        color: #d71920;
+    }
+
+/* ABOUT */
+
+#about {
+    max-width: 1000px;
+}
+
+    #about h2 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: #d71920;
+        margin-bottom: 20px;
+    }
+
+    #about p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #555;
+    }
+
+/* CARDS */
+
+.card {
+    border: none;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+        color: #d71920;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .card p {
+        color: #555;
+        line-height: 1.6;
+    }
+
+/* DONATION SECTION */
+
+#donate {
+    background-color: #d71920;
+    color: white;
+    max-width: 100%;
+}
+
+    #donate h2 {
+        font-size: 2.4rem;
+        font-weight: 700;
+    }
+
+    #donate p {
+        font-size: 1.1rem;
+    }
+
+    #donate .btn-primary {
+        background-color: white;
+        border-color: white;
+        color: #d71920;
+        padding: 12px 30px;
+    }
+
+        #donate .btn-primary:hover {
+            background-color: #f1f1f1;
+        }
+
+/* VOLUNTEER SECTION */
+
+#volunteer {
+    background-color: #ffffff;
+}
+
+    #volunteer h2 {
+        color: #d71920;
+        font-size: 2.4rem;
+        font-weight: 700;
+    }
+
+    #volunteer p {
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    #volunteer .btn-outline-primary {
+        border: 2px solid #d71920;
+        color: #d71920;
+        padding: 12px 30px;
+    }
+
+        #volunteer .btn-outline-primary:hover {
+            background-color: #d71920;
+            color: white;
+        }
+
+/* FOOTER */
+
+footer {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    margin-top: 0;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .main-header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .main-header nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero-section {
+        min-height: 450px;
+    }
+
+        .hero-section h1 {
+            font-size: 2.7rem;
+        }
+
+        .hero-section p {
+            font-size: 1rem;
+        }
+
+        .hero-section .btn {
+            display: block;
+            width: 100%;
+            margin: 10px 0 !important;
+        }
+}
+
+/* DONATE PAGE */
+
+.donate-page {
+    background-color: #f7f7f7;
+    min-height: 100vh;
+}
+
+.donate-hero {
+    background-color: #d71920;
+    color: white;
+    padding: 70px 20px;
+}
+
+    .donate-hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .donate-hero p {
+        font-size: 1.15rem;
+        max-width: 700px;
+        margin: auto;
+    }
+
+.donation-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.1);
+}
+
+    .donation-card h2 {
+        color: #d71920;
+        font-weight: 700;
+    }
+
+    .donation-card .form-control,
+    .donation-card .form-select {
+        padding: 12px;
+        border-radius: 7px;
+    }
+
+.donate-submit-btn {
+    background-color: #d71920;
+    color: white;
+    border: none;
+    padding: 13px;
+    font-weight: 700;
+    border-radius: 7px;
+}
+
+    .donate-submit-btn:hover {
+        background-color: #b8141a;
+        color: white;
+    }
+
+/* TAX CERTIFICATE PAGE */
+
+.certificate-page {
+    min-height: 100vh;
+    background-color: #f7f7f7;
+}
+
+.certificate-hero {
+    background-color: #d71920;
+    color: white;
+    padding: 55px 20px;
+}
+
+    .certificate-hero h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+    }
+
+    .certificate-hero p {
+        font-size: 1.1rem;
+    }
+
+.certificate-card {
+    background-color: white;
+    padding: 45px;
+    border-radius: 14px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+}
+
+.certificate-header h2 {
+    color: #d71920;
+    font-weight: 800;
+}
+
+.certificate-header p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.certificate-details {
+    margin-top: 30px;
+}
+
+.certificate-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.certificate-label {
+    font-weight: 700;
+    color: #333;
+}
+
+.certificate-message {
+    color: #555;
+    line-height: 1.7;
+}
+
+.certificate-print-btn {
+    background-color: #d71920;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-weight: 700;
+}
+
+    .certificate-print-btn:hover {
+        background-color: #b8141a;
+        color: white;
+    }
+
+@media print {
+
+    .certificate-hero,
+    .certificate-print-btn,
+    .btn-outline-secondary {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    .certificate-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* ========================================
+   VOLUNTEER PAGE
+======================================== */
+
+.volunteer-page {
+    min-height: 100vh;
+    background-color: #f7f7f7;
+}
+
+.volunteer-hero {
+    background: linear-gradient( 135deg, #d71920, #a81016 );
+    color: white;
+    padding: 70px 20px;
+}
+
+    .volunteer-hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .volunteer-hero p {
+        max-width: 700px;
+        margin: 0 auto;
+        font-size: 1.15rem;
+        line-height: 1.7;
+    }
+
+.volunteer-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.10);
+}
+
+    .volunteer-card h2 {
+        color: #d71920;
+        font-weight: 800;
+    }
+
+    .volunteer-card p {
+        color: #666;
+    }
+
+    .volunteer-card .form-label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .volunteer-card .form-control,
+    .volunteer-card .form-select {
+        padding: 12px 14px;
+        border-radius: 7px;
+        border: 1px solid #d5d5d5;
+    }
+
+        .volunteer-card .form-control:focus,
+        .volunteer-card .form-select:focus {
+            border-color: #d71920;
+            box-shadow: 0 0 0 0.2rem rgba(215, 25, 32, 0.12);
+        }
+
+.volunteer-submit-btn {
+    background-color: #d71920;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    transition: 0.3s;
+}
+
+    .volunteer-submit-btn:hover {
+        background-color: #b8141a;
+        color: white;
+    }
+
+.volunteer-success {
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+    .volunteer-success h4 {
+        font-weight: 700;
+    }
+
+.volunteer-home-link {
+    color: #d71920;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+    .volunteer-home-link:hover {
+        text-decoration: underline;
+    }
+
+@media (max-width: 768px) {
+
+    .volunteer-hero {
+        padding: 50px 20px;
+    }
+
+        .volunteer-hero h1 {
+            font-size: 2.3rem;
+        }
+
+    .volunteer-card {
+        padding: 25px;
+    }
+}
+
+/* AUTHENTICATION PAGES */
+
+.auth-page {
+    min-height: 100vh;
+    background-color: #f7f7f7;
+}
+
+.auth-hero {
+    background: linear-gradient( 135deg, #d71920, #a81016 );
+    color: white;
+    padding: 60px 20px;
+}
+
+    .auth-hero h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+    }
+
+    .auth-hero p {
+        font-size: 1.1rem;
+        max-width: 650px;
+        margin: 10px auto 0;
+    }
+
+.auth-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.10);
+}
+
+    .auth-card h2 {
+        color: #d71920;
+        font-weight: 800;
+    }
+
+    .auth-card .form-label {
+        font-weight: 600;
+    }
+
+    .auth-card .form-control {
+        padding: 12px;
+        border-radius: 7px;
+    }
+
+        .auth-card .form-control:focus {
+            border-color: #d71920;
+            box-shadow: 0 0 0 0.2rem rgba(215, 25, 32, 0.12);
+        }
+
+.auth-submit-btn {
+    background-color: #d71920;
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 7px;
+    font-weight: 700;
+}
+
+    .auth-submit-btn:hover {
+        background-color: #b8141a;
+        color: white;
+    }
+
+.auth-card a {
+    color: #d71920;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    .auth-card a:hover {
+        text-decoration: underline;
+    }
+
+
+/* ========================================
+   LOGIN PAGE EXTRA STYLING
+======================================== */
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 28px 0;
+    color: #999;
+}
+
+    .auth-divider::before,
+    .auth-divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .auth-divider span {
+        padding: 0 15px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+.auth-register-btn {
+    background-color: white;
+    color: #d71920;
+    border: 2px solid #d71920;
+    padding: 11px;
+    border-radius: 7px;
+    font-weight: 700;
+}
+
+    .auth-register-btn:hover {
+        background-color: #d71920;
+        color: white;
+    }
+
+.auth-home-link {
+    color: #666;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+    .auth-home-link:hover {
+        color: #d71920;
+    }
+
+
+/* ========================================
+   EMPLOYEE DASHBOARD
+======================================== */
+
+.employee-page {
+    min-height: 100vh;
+    background-color: #f5f6f8;
+}
+
+.employee-header {
+    background-color: white;
+    border-bottom: 3px solid #d71920;
+    padding: 18px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+    .employee-header h2 {
+        margin: 0;
+        color: #d71920;
+        font-weight: 800;
+    }
+
+    .employee-header span {
+        color: #666;
+    }
+
+.employee-email {
+    margin-right: 15px;
+    font-size: 0.9rem;
+}
+
+.employee-home-btn {
+    border: 2px solid #d71920;
+    color: #d71920;
+    font-weight: 600;
+}
+
+    .employee-home-btn:hover {
+        background-color: #d71920;
+        color: white;
+    }
+
+.employee-welcome {
+    background: linear-gradient( 135deg, #d71920, #a81016 );
+    color: white;
+    padding: 55px 20px;
+}
+
+    .employee-welcome h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+    }
+
+    .employee-welcome p {
+        margin-bottom: 0;
+        font-size: 1.1rem;
+    }
+
+.dashboard-stat-card {
+    background-color: white;
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+    .dashboard-stat-card h3 {
+        color: #d71920;
+        font-size: 2.2rem;
+        font-weight: 800;
+    }
+
+    .dashboard-stat-card p {
+        margin: 0;
+        color: #666;
+    }
+
+.dashboard-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+    .dashboard-card h2 {
+        color: #d71920;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-card .form-label {
+        font-weight: 600;
+    }
+
+    .dashboard-card .form-control {
+        padding: 12px;
+        border-radius: 7px;
+    }
+
+.employee-action-btn {
+    background-color: #d71920;
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 7px;
+    font-weight: 700;
+}
+
+    .employee-action-btn:hover {
+        background-color: #b8141a;
+        color: white;
+    }
+
+.dashboard-empty {
+    color: #777;
+    padding: 20px 0;
+}
+
+.relief-update-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+
+    .relief-update-item:last-child {
+        border-bottom: none;
+    }
+
+    .relief-update-item strong {
+        color: #333;
+    }
+
+    .relief-update-item span {
+        color: #999;
+        font-size: 0.85rem;
+    }
+
+    .relief-update-item p {
+        margin: 10px 0 5px;
+    }
+
+    .relief-update-item small {
+        color: #888;
+    }
+
+.dashboard-section-heading p {
+    color: #666;
+}
+
+.dashboard-card table thead {
+    background-color: #f8f8f8;
+}
+
+.dashboard-card table th {
+    color: #333;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+
+    .employee-header .container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .employee-welcome {
+        text-align: center;
+    }
+
+        .employee-welcome h1 {
+            font-size: 2.2rem;
+        }
+
+    .dashboard-card {
+        padding: 20px;
+    }
+}
+
+/* ========================================
+   PUBLIC RELIEF UPDATES PAGE
+======================================== */
+
+.relief-page {
+    min-height: 100vh;
+    background-color: #f6f7f8;
+}
+
+
+/* HEADER */
+
+.relief-header {
+    background-color: white;
+    border-bottom: 3px solid #d71920;
+    padding: 18px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.relief-brand h2 {
+    margin: 0;
+    color: #d71920;
+    font-weight: 800;
+}
+
+.relief-nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+    .relief-nav a {
+        color: #333;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+        .relief-nav a:hover,
+        .relief-nav a.active {
+            color: #d71920;
+        }
+
+
+/* HERO */
+
+.relief-hero {
+    background: linear-gradient( 135deg, #d71920, #9f1016 );
+    color: white;
+    padding: 85px 20px;
+}
+
+.relief-badge {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 7px 16px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.relief-hero h1 {
+    font-size: 3.4rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.relief-hero p {
+    max-width: 760px;
+    margin: auto;
+    font-size: 1.15rem;
+    line-height: 1.7;
+}
+
+
+/* SECTION HEADING */
+
+.relief-section-heading {
+    max-width: 700px;
+    margin: 0 auto 45px;
+}
+
+    .relief-section-heading h2 {
+        color: #d71920;
+        font-size: 2.4rem;
+        font-weight: 800;
+    }
+
+    .relief-section-heading p {
+        color: #666;
+        font-size: 1.05rem;
+    }
+
+
+/* UPDATE CARDS */
+
+.public-update-card {
+    background-color: white;
+    height: 100%;
+    padding: 30px;
+    border-radius: 14px;
+    border-left: 5px solid #d71920;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    transition: 0.25s;
+}
+
+    .public-update-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+.public-update-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.update-status {
+    background-color: #fdebed;
+    color: #d71920;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.update-date {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.public-update-card h3 {
+    color: #222;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.public-update-message {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.public-update-footer {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 0.8rem;
+}
+
+
+/* NO UPDATES */
+
+.no-relief-updates {
+    max-width: 650px;
+    margin: 20px auto;
+    text-align: center;
+    background-color: white;
+    padding: 55px 35px;
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+.no-update-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fdebed;
+    color: #d71920;
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.no-relief-updates h3 {
+    font-weight: 800;
+    color: #333;
+}
+
+.no-relief-updates p {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.relief-home-button {
+    background-color: #d71920;
+    color: white;
+    border: none;
+    padding: 11px 25px;
+    font-weight: 700;
+}
+
+    .relief-home-button:hover {
+        background-color: #b8141a;
+        color: white;
+    }
+
+
+/* CTA */
+
+.relief-cta {
+    background-color: #222;
+    color: white;
+    padding: 70px 20px;
+}
+
+    .relief-cta h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+    }
+
+    .relief-cta p {
+        max-width: 700px;
+        margin: 15px auto;
+        color: #ddd;
+    }
+
+.relief-donate-btn {
+    background-color: #d71920;
+    color: white;
+    border: 2px solid #d71920;
+    padding: 12px 28px;
+    margin: 5px;
+    font-weight: 700;
+}
+
+    .relief-donate-btn:hover {
+        background-color: #b8141a;
+        color: white;
+    }
+
+.relief-volunteer-btn {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 12px 28px;
+    margin: 5px;
+    font-weight: 700;
+}
+
+    .relief-volunteer-btn:hover {
+        background-color: white;
+        color: #222;
+    }
+
+
+/* FOOTER */
+
+.relief-footer {
+    background-color: #151515;
+    color: white;
+    padding: 35px 20px;
+}
+
+    .relief-footer h4 {
+        color: #d71920;
+        font-weight: 800;
+    }
+
+    .relief-footer p {
+        color: #aaa;
+        margin-bottom: 8px;
+    }
+
+    .relief-footer small {
+        color: #777;
+    }
+
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .relief-header .container {
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .relief-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .relief-hero {
+        padding: 60px 20px;
+    }
+
+        .relief-hero h1 {
+            font-size: 2.5rem;
+        }
+
+    .public-update-footer {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+
+/* ========================================
+   LOGOUT BUTTON
+======================================== */
+
+.employee-logout-btn {
+    background-color: #d71920;
+    color: white;
+    border: 2px solid #d71920;
+    font-weight: 600;
+}
+
+    .employee-logout-btn:hover {
+        background-color: #b8141a;
+        border-color: #b8141a;
+        color: white;
+    }
+
+/* HOMEPAGE LOGOUT */
+
+.nav-logout-form {
+    display: inline;
+    margin: 0;
+}
+
+.nav-logout-button {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #222;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+    .nav-logout-button:hover {
+        color: #d71920;
+    }

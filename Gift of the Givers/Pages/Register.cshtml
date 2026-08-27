@@ -1,0 +1,158 @@
+﻿@page
+@model Gift_of_the_Givers.Pages.RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="auth-page">
+
+    <section class="auth-hero">
+        <div class="container text-center">
+
+            <h1>Create Donor Account</h1>
+
+            <p>
+                Register to support Gift of the Givers and access
+                donation features.
+            </p>
+
+        </div>
+    </section>
+
+    <section class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-6">
+
+                <div class="auth-card">
+
+                    <h2 class="text-center mb-4">
+                        Donor Registration
+                    </h2>
+
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger">
+                            @Model.ErrorMessage
+                        </div>
+                    }
+
+                    <form method="post">
+
+                        <div class="mb-3">
+
+                            <label asp-for="FirstName"
+                                   class="form-label">
+                                First Name
+                            </label>
+
+                            <input asp-for="FirstName"
+                                   class="form-control"
+                                   placeholder="Enter your first name" />
+
+                            <span asp-validation-for="FirstName"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="LastName"
+                                   class="form-label">
+                                Last Name
+                            </label>
+
+                            <input asp-for="LastName"
+                                   class="form-control"
+                                   placeholder="Enter your last name" />
+
+                            <span asp-validation-for="LastName"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Email"
+                                   class="form-label">
+                                Email Address
+                            </label>
+
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   placeholder="Enter your email address" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Password"
+                                   class="form-label">
+                                Password
+                            </label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   placeholder="Enter your password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="ConfirmPassword"
+                                   class="form-label">
+                                Confirm Password
+                            </label>
+
+                            <input asp-for="ConfirmPassword"
+                                   class="form-control"
+                                   placeholder="Confirm your password" />
+
+                            <span asp-validation-for="ConfirmPassword"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn auth-submit-btn w-100">
+
+                            Create Donor Account
+
+                        </button>
+
+                    </form>
+
+                    <div class="text-center mt-4">
+
+                        <p>
+                            Already registered?
+
+                            <a asp-page="/Login">
+                                Login here
+                            </a>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

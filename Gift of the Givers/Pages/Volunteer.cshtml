@@ -1,0 +1,269 @@
+﻿@page
+@model Gift_of_the_Givers.Pages.VolunteerModel
+
+@{
+    ViewData["Title"] = "Volunteer";
+}
+
+<div class="volunteer-page">
+
+    <section class="volunteer-hero">
+        <div class="container text-center">
+            <h1>Become a Volunteer</h1>
+
+            <p>
+                Join our team and use your skills to support communities
+                affected by disasters and emergencies.
+            </p>
+        </div>
+    </section>
+
+    <section class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                @if (Model.Submitted)
+                {
+                    <div class="alert alert-success text-center volunteer-success">
+                        <h4>Thank You for Volunteering!</h4>
+
+                        <p class="mb-0">
+                            Your volunteer registration has been received successfully.
+                            Our team will contact you when your skills are needed.
+                        </p>
+                    </div>
+                }
+
+                <div class="volunteer-card">
+
+                    <div class="text-center mb-4">
+                        <h2>Volunteer Registration</h2>
+
+                        <p>
+                            Please provide your details, skills and availability below.
+                        </p>
+                    </div>
+
+                    <form method="post">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="FirstName" class="form-label">
+                                    First Name
+                                </label>
+
+                                <input asp-for="FirstName"
+                                       class="form-control"
+                                       placeholder="Enter your first name" />
+
+                                <span asp-validation-for="FirstName"
+                                      class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="LastName" class="form-label">
+                                    Last Name
+                                </label>
+
+                                <input asp-for="LastName"
+                                       class="form-control"
+                                       placeholder="Enter your last name" />
+
+                                <span asp-validation-for="LastName"
+                                      class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="Email" class="form-label">
+                                Email Address
+                            </label>
+
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   placeholder="Enter your email address" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="PhoneNumber" class="form-label">
+                                Contact Number
+                            </label>
+
+                            <input asp-for="PhoneNumber"
+                                   class="form-control"
+                                   placeholder="e.g. 071 234 5678" />
+
+                            <span asp-validation-for="PhoneNumber"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="Skills" class="form-label">
+                                Skills
+                            </label>
+
+                            <select asp-for="Skills" class="form-select">
+
+                                <option value="">
+                                    Select your main skill
+                                </option>
+
+                                <option value="Medical Assistance">
+                                    Medical Assistance
+                                </option>
+
+                                <option value="First Aid">
+                                    First Aid
+                                </option>
+
+                                <option value="Logistics">
+                                    Logistics
+                                </option>
+
+                                <option value="Food Distribution">
+                                    Food Distribution
+                                </option>
+
+                                <option value="Transportation">
+                                    Transportation
+                                </option>
+
+                                <option value="Construction">
+                                    Construction
+                                </option>
+
+                                <option value="Administration">
+                                    Administration
+                                </option>
+
+                                <option value="Counselling">
+                                    Counselling
+                                </option>
+
+                                <option value="General Assistance">
+                                    General Assistance
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Skills"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="Availability" class="form-label">
+                                Availability
+                            </label>
+
+                            <select asp-for="Availability"
+                                    class="form-select">
+
+                                <option value="">
+                                    Select your availability
+                                </option>
+
+                                <option value="Weekdays">
+                                    Weekdays
+                                </option>
+
+                                <option value="Weekends">
+                                    Weekends
+                                </option>
+
+                                <option value="Evenings">
+                                    Evenings
+                                </option>
+
+                                <option value="Emergency Call-Out">
+                                    Emergency Call-Out
+                                </option>
+
+                                <option value="Any Time">
+                                    Any Time
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Availability"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="AdditionalInformation"
+                                   class="form-label">
+                                Additional Information
+                            </label>
+
+                            <textarea asp-for="AdditionalInformation"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="Tell us about any additional experience or skills you may have."></textarea>
+
+                        </div>
+
+                        <div class="form-check mb-4">
+
+                            <input asp-for="TermsAccepted"
+                                   class="form-check-input" />
+
+                            <label asp-for="TermsAccepted"
+                                   class="form-check-label">
+                                I confirm that the information provided is correct
+                                and I am willing to be contacted about volunteer
+                                opportunities.
+                            </label>
+
+                            <br />
+
+                            <span asp-validation-for="TermsAccepted"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn volunteer-submit-btn w-100">
+                            Submit Volunteer Registration
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <div class="text-center mt-4">
+
+                    <a asp-page="/Index"
+                       class="volunteer-home-link">
+                        ← Back to Home
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

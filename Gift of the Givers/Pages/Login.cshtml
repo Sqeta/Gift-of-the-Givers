@@ -1,0 +1,144 @@
+﻿@page
+@model Gift_of_the_Givers.Pages.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="auth-page">
+
+    <section class="auth-hero">
+        <div class="container text-center">
+
+            <h1>Welcome Back</h1>
+
+            <p>
+                Sign in to your Gift of the Givers account.
+            </p>
+
+        </div>
+    </section>
+
+    <section class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-6 col-md-8">
+
+                <div class="auth-card">
+
+                    <h2 class="text-center mb-2">
+                        Login
+                    </h2>
+
+                    <p class="text-center text-muted mb-4">
+                        Enter your account details below.
+                    </p>
+
+                    @if (TempData["RegistrationSuccess"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["RegistrationSuccess"]
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger">
+                            @Model.ErrorMessage
+                        </div>
+                    }
+
+                    <form method="post">
+
+                        <div class="mb-3">
+
+                            <label asp-for="Email"
+                                   class="form-label">
+                                Email Address
+                            </label>
+
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   placeholder="Enter your email address" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Password"
+                                   class="form-label">
+                                Password
+                            </label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   placeholder="Enter your password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="form-check mb-4">
+
+                            <input asp-for="RememberMe"
+                                   class="form-check-input" />
+
+                            <label asp-for="RememberMe"
+                                   class="form-check-label">
+                                Remember me
+                            </label>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn auth-submit-btn w-100">
+                            Login
+                        </button>
+
+                    </form>
+
+                    <div class="auth-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <div class="text-center">
+
+                        <p class="mb-2">
+                            Don't have a donor account?
+                        </p>
+
+                        <a asp-page="/Register"
+                           class="btn auth-register-btn w-100">
+                            Create Donor Account
+                        </a>
+
+                    </div>
+
+                    <div class="text-center mt-4">
+
+                        <a asp-page="/Index"
+                           class="auth-home-link">
+                            ← Back to Home
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

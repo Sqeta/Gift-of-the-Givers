@@ -1,0 +1,95 @@
+﻿@page
+@model Gift_of_the_Givers.Pages.TaxCertificateModel
+
+@{
+    ViewData["Title"] = "Tax Certificate";
+}
+
+<div class="certificate-page">
+
+    <section class="certificate-hero">
+        <div class="container text-center">
+            <h1>Donation Tax Certificate</h1>
+            <p>Thank you for supporting Gift of the Givers.</p>
+        </div>
+    </section>
+
+    <section class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="certificate-card">
+
+                    <div class="certificate-header text-center">
+                        <h2>Gift of the Givers Foundation</h2>
+                        <p>Donation Acknowledgement Certificate</p>
+                    </div>
+
+                    <hr />
+
+                    <div class="certificate-details">
+
+                        <div class="certificate-row">
+                            <span class="certificate-label">Donor:</span>
+                            <span>@Model.DonorName</span>
+                        </div>
+
+                        <div class="certificate-row">
+                            <span class="certificate-label">Donation Type:</span>
+                            <span>@Model.DonationType</span>
+                        </div>
+
+                        <div class="certificate-row">
+                            <span class="certificate-label">Amount:</span>
+                            <span>@Model.Currency @Model.Amount</span>
+                        </div>
+
+                        <div class="certificate-row">
+                            <span class="certificate-label">Date:</span>
+                            <span>@Model.DonationDate</span>
+                        </div>
+
+                        <div class="certificate-row">
+                            <span class="certificate-label">Reference:</span>
+                            <span>@Model.ReferenceNumber</span>
+                        </div>
+
+                    </div>
+
+                    <div class="certificate-message mt-4">
+                        <p>
+                            This certificate confirms that the donation listed above
+                            was recorded by the Gift of the Givers Relief Management System.
+                        </p>
+
+                        <p>
+                            This is a prototype tax certificate created for demonstration
+                            purposes and does not represent an official tax document.
+                        </p>
+                    </div>
+
+                    <div class="text-center mt-4">
+
+                        <button class="btn certificate-print-btn"
+                                onclick="window.print()">
+                            Print / Save as PDF
+                        </button>
+
+                        <a asp-page="/Index"
+                           class="btn btn-outline-secondary ms-2">
+                            Back to Home
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

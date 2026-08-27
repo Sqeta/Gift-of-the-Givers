@@ -1,0 +1,335 @@
+﻿@page
+@model Gift_of_the_Givers.Pages.EmployeeDashboardModel
+
+@{
+    ViewData["Title"] = "Employee Dashboard";
+}
+
+<div class="employee-page">
+
+    <header class="employee-header">
+
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <div>
+                <h2>Gift of the Givers</h2>
+                <span>Employee Portal</span>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+
+                <span class="employee-email">
+                    @User.Identity?.Name
+                </span>
+
+                <a asp-page="/Index"
+                   class="btn employee-home-btn">
+                    Home
+                </a>
+
+                <form method="post"
+                      asp-page="/Logout"
+                      class="m-0">
+
+                    <button type="submit"
+                            class="btn employee-logout-btn">
+                        Logout
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="employee-welcome">
+
+        <div class="container">
+
+            <h1>Employee Dashboard</h1>
+
+            <p>
+                Manage relief information and monitor volunteer registrations.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="container py-5">
+
+        <div class="row mb-5">
+
+            <div class="col-md-4 mb-3">
+
+                <div class="dashboard-stat-card">
+
+                    <h3>@Model.Volunteers.Count</h3>
+
+                    <p>Volunteer Sign-ups</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+
+                <div class="dashboard-stat-card">
+
+                    <h3>@Model.ReliefUpdates.Count</h3>
+
+                    <p>Relief Updates</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+
+                <div class="dashboard-stat-card">
+
+                    <h3>Employee</h3>
+
+                    <p>Current Role</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <!-- POST RELIEF UPDATE -->
+
+            <div class="col-lg-5 mb-4">
+
+                <div class="dashboard-card">
+
+                    <h2>Post Relief Update</h2>
+
+                    @if (TempData["UpdateSuccess"] != null)
+                    {
+                        <div class="alert alert-success">
+
+                            @TempData["UpdateSuccess"]
+
+                        </div>
+                    }
+
+
+                    <form method="post">
+
+                        <div class="mb-3">
+
+                            <label asp-for="ProjectName"
+                                   class="form-label">
+                                Relief Project
+                            </label>
+
+                            <input asp-for="ProjectName"
+                                   class="form-control"
+                                   placeholder="e.g. Eastern Cape Flood Relief" />
+
+                            <span asp-validation-for="ProjectName"
+                                  class="text-danger"></span>
+
+                        </div>
+
+
+                        <div class="mb-4">
+
+                            <label asp-for="UpdateMessage"
+                                   class="form-label">
+                                Update
+                            </label>
+
+                            <textarea asp-for="UpdateMessage"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Enter the latest relief project update..."></textarea>
+
+                            <span asp-validation-for="UpdateMessage"
+                                  class="text-danger"></span>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn employee-action-btn w-100">
+
+                            Post Update
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- RELIEF UPDATES -->
+
+            <div class="col-lg-7 mb-4">
+
+                <div class="dashboard-card">
+
+                    <h2>Recent Relief Updates</h2>
+
+                    @if (Model.ReliefUpdates.Count == 0)
+                    {
+                        <p class="dashboard-empty">
+                            No relief updates have been posted yet.
+                        </p>
+                    }
+                    else
+                    {
+                        @foreach (var update in Model.ReliefUpdates)
+                        {
+                            <div class="relief-update-item">
+
+                                <div class="d-flex justify-content-between">
+
+                                    <strong>
+                                        @update.ProjectName
+                                    </strong>
+
+                                    <span>
+                                        @update.DatePosted.ToString("dd MMM yyyy HH:mm")
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    @update.UpdateMessage
+                                </p>
+
+                                <small>
+                                    Posted by @update.PostedBy
+                                </small>
+
+                            </div>
+                        }
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- VOLUNTEER SIGNUPS -->
+
+        <div class="dashboard-card mt-4">
+
+            <div class="dashboard-section-heading">
+
+                <div>
+
+                    <h2>Volunteer Sign-ups</h2>
+
+                    <p>
+                        View people who have registered to assist
+                        with disaster relief.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            @if (Model.Volunteers.Count == 0)
+            {
+                <div class="dashboard-empty">
+
+                    No volunteer registrations have been submitted yet.
+
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Name</th>
+
+                                <th>Email</th>
+
+                                <th>Contact</th>
+
+                                <th>Skills</th>
+
+                                <th>Availability</th>
+
+                                <th>Date</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var volunteer in Model.Volunteers)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @volunteer.FirstName
+                                        @volunteer.LastName
+                                    </td>
+
+                                    <td>
+                                        @volunteer.Email
+                                    </td>
+
+                                    <td>
+                                        @volunteer.PhoneNumber
+                                    </td>
+
+                                    <td>
+                                        @volunteer.Skills
+                                    </td>
+
+                                    <td>
+                                        @volunteer.Availability
+                                    </td>
+
+                                    <td>
+                                        @volunteer.DateSubmitted.ToString("dd MMM yyyy")
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </section>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
