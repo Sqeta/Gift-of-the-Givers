@@ -49,8 +49,8 @@ steps:
 # STEP 4 - BUILD THE SOLUTION
 # ==========================================
 
-- script: dotnet build --configuration $(buildConfiguration) --no-restore
-  displayName: 'Build solution'
+- script: dotnet build "GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj" --configuration $(buildConfiguration) --no-restore
+  displayName: 'Build test project'
 
 # ==========================================
 # STEP 5 - RUN AUTOMATED TESTS
