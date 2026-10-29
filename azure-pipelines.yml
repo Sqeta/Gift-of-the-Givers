@@ -1,7 +1,8 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+# ==========================================
+# GIFT OF THE GIVERS
+# PART 3 - AUTOMATED TESTING PIPELINE
+# ==========================================
 
 trigger:
 - master
@@ -10,25 +11,67 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+# ==========================================
+# STEP 1 - INSTALL .NET 8
+# ==========================================
 
-- task: VSBuild@1
+- task: UseDotNet@2
+  displayName: 'Install .NET 8 SDK'
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    packageType: 'sdk'
+    version: '8.0.x'
 
-- task: VSTest@2
+# ==========================================
+# STEP 2 - AUTHENTICATE NUGET FEEDS
+# ==========================================
+
+- task: NuGetAuthenticate@1
+  displayName: 'Authenticate NuGet feeds'
+
+# ==========================================
+# STEP 3 - RESTORE DEPENDENCIES
+# ==========================================
+
+- script: dotnet restore "GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj"
+  displayName: 'Restore test project dependencies'
+
+# ==========================================
+# STEP 4 - BUILD THE SOLUTION
+# ==========================================
+
+- script: dotnet build --configuration $(buildConfiguration) --no-restore
+  displayName: 'Build solution'
+
+# ==========================================
+# STEP 5 - RUN AUTOMATED TESTS
+# ==========================================
+
+# Exclude Selenium tests because they require
+# a locally running website and Chrome browser.
+
+- script: >
+    dotnet test
+    "GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj"
+    --configuration $(buildConfiguration)
+    --filter "FullyQualifiedName!~SeleniumTests"
+    --logger "trx;LogFileName=automated-tests.trx"
+    --results-directory "$(Agent.TempDirectory)/TestResults"
+  displayName: 'Run unit, integration and load tests'
+
+# ==========================================
+# STEP 6 - PUBLISH TEST RESULTS
+# ==========================================
+
+- task: PublishTestResults@2
+  displayName: 'Publish automated test results'
+  condition: succeededOrFailed()
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/*.trx'
+    searchFolder: '$(Agent.TempDirectory)/TestResults'
+    failTaskOnFailedTests: true
+    testRunTitle: 'Gift of the Givers Automated Tests'

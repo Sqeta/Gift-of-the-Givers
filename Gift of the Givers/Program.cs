@@ -1,3 +1,4 @@
+
 using Gift_of_the_Givers.Data;
 using Gift_of_the_Givers.Models;
 using Microsoft.AspNetCore.Identity;
@@ -5,31 +6,30 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // ==========================================
 // RAZOR PAGES
 // ==========================================
 
 builder.Services.AddRazorPages();
 
-
 // ==========================================
 // DATABASE
 // ==========================================
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    // Integration tests replace this with
+    // an in-memory database.
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
-    )
-);
-
+    );
+});
 
 // ==========================================
 // PROTOTYPE IN-MEMORY STORAGE
 // ==========================================
 
 builder.Services.AddSingleton<PrototypeStore>();
-
 
 // ==========================================
 // ASP.NET IDENTITY
@@ -49,7 +49,6 @@ builder.Services
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-
 // ==========================================
 // LOGIN SETTINGS
 // ==========================================
@@ -60,20 +59,23 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/AccessDenied";
 });
 
-
 // ==========================================
 // BUILD APPLICATION
 // ==========================================
 
 var app = builder.Build();
 
-
 // ==========================================
-// CREATE DATABASE / ROLES / EMPLOYEE
+// DATABASE INITIALISATION
 // ==========================================
 
-using (var scope = app.Services.CreateScope())
+// Integration tests manage their own database.
+// Never seed the test employee in production.
+
+if (!app.Environment.IsEnvironment("Testing"))
 {
+    using var scope = app.Services.CreateScope();
+
     var services = scope.ServiceProvider;
 
     var dbContext =
@@ -81,13 +83,8 @@ using (var scope = app.Services.CreateScope())
 
     dbContext.Database.EnsureCreated();
 
-
     var roleManager =
         services.GetRequiredService<RoleManager<IdentityRole>>();
-
-    var userManager =
-        services.GetRequiredService<UserManager<IdentityUser>>();
-
 
     string[] roles =
     {
@@ -95,68 +92,91 @@ using (var scope = app.Services.CreateScope())
         "Donor"
     };
 
-
     foreach (string role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
         {
-            await roleManager.CreateAsync(
+            var roleResult = await roleManager.CreateAsync(
                 new IdentityRole(role)
             );
+
+            if (!roleResult.Succeeded)
+            {
+                throw new InvalidOperationException(
+                    "Could not create role: " + role
+                );
+            }
         }
     }
 
+    // ==========================================
+    // DEVELOPMENT TEST EMPLOYEE
+    // ==========================================
 
-    string employeeEmail =
-        "employee@giftofthegivers.co.za";
-
-    string employeePassword =
-        "Employee123!";
-
-
-    var employee =
-        await userManager.FindByEmailAsync(employeeEmail);
-
-
-    if (employee == null)
+    if (app.Environment.IsDevelopment())
     {
-        employee = new IdentityUser
+        var userManager =
+            services.GetRequiredService<UserManager<IdentityUser>>();
+
+        string? employeeEmail =
+            app.Configuration["TestEmployee:Email"];
+
+        string? employeePassword =
+            app.Configuration["TestEmployee:Password"];
+
+        if (!string.IsNullOrWhiteSpace(employeeEmail) &&
+            !string.IsNullOrWhiteSpace(employeePassword))
         {
-            UserName = employeeEmail,
-            Email = employeeEmail,
-            EmailConfirmed = true
-        };
+            var employee =
+                await userManager.FindByEmailAsync(employeeEmail);
 
+            if (employee == null)
+            {
+                employee = new IdentityUser
+                {
+                    UserName = employeeEmail,
+                    Email = employeeEmail,
+                    EmailConfirmed = true
+                };
 
-        var result =
-            await userManager.CreateAsync(
-                employee,
-                employeePassword
-            );
+                var createResult =
+                    await userManager.CreateAsync(
+                        employee,
+                        employeePassword
+                    );
 
+                if (!createResult.Succeeded)
+                {
+                    throw new InvalidOperationException(
+                        "Could not create test employee: " +
+                        string.Join(
+                            "; ",
+                            createResult.Errors.Select(e => e.Description)
+                        )
+                    );
+                }
+            }
 
-        if (result.Succeeded)
-        {
-            await userManager.AddToRoleAsync(
-                employee,
-                "Employee"
-            );
-        }
-    }
-    else
-    {
-        if (!await userManager.IsInRoleAsync(
-                employee,
-                "Employee"))
-        {
-            await userManager.AddToRoleAsync(
-                employee,
-                "Employee"
-            );
+            if (!await userManager.IsInRoleAsync(
+                    employee,
+                    "Employee"))
+            {
+                var roleResult =
+                    await userManager.AddToRoleAsync(
+                        employee,
+                        "Employee"
+                    );
+
+                if (!roleResult.Succeeded)
+                {
+                    throw new InvalidOperationException(
+                        "Could not assign Employee role."
+                    );
+                }
+            }
         }
     }
 }
-
 
 // ==========================================
 // REQUEST PIPELINE
@@ -165,10 +185,8 @@ using (var scope = app.Services.CreateScope())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-
     app.UseHsts();
 }
-
 
 app.UseHttpsRedirection();
 
@@ -183,3 +201,11 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+// ==========================================
+// INTEGRATION TEST SUPPORT
+// ==========================================
+
+public partial class Program
+{
+}

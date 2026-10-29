@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>GiftOfTheGivers.Helpers</PackageId>
+    <Title>Gift of the Givers Helper Library</Title>
+    <Authors>Gift of the Givers DevOps Team</Authors>
+    <Company>Gift of the Givers DevOps Team</Company>
+    <Product>GiftOfTheGivers.Helpers</Product>
+    <Description>Helper library for the Gift of the Givers web application, including utilities for generating tax certificate numbers.</Description>
+    <PackageReleaseNotes>Initial release of the Gift of the Givers helper library.</PackageReleaseNotes>
+    <PackageTags>GiftOfTheGivers;Helpers;TaxCertificate;Donation</PackageTags>
+  </PropertyGroup>
+
+</Project>

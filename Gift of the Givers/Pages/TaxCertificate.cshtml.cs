@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using GiftOfTheGivers.Helpers;
 
 namespace Gift_of_the_Givers.Pages
 {
@@ -18,21 +19,26 @@ namespace Gift_of_the_Givers.Pages
 
         public void OnGet()
         {
-            DonorName = TempData["DonorName"]?.ToString() ?? "Anonymous Donor";
+            DonorName = TempData["DonorName"]?.ToString()
+                        ?? "Anonymous Donor";
 
-            DonationType = TempData["DonationType"]?.ToString() ?? "One-Time";
+            DonationType = TempData["DonationType"]?.ToString()
+                           ?? "One-Time";
 
-            Amount = TempData["Amount"]?.ToString() ?? "0.00";
+            Amount = TempData["Amount"]?.ToString()
+                     ?? "0.00";
 
-            Currency = TempData["Currency"]?.ToString() ?? "ZAR";
+            Currency = TempData["Currency"]?.ToString()
+                       ?? "ZAR";
 
             DonationDate = DateTime.Now.ToString("dd MMMM yyyy");
 
+            // Generate a simple donation ID for the prototype.
+            int donationId = Random.Shared.Next(1, 999999);
+
+            // Uses the custom GiftOfTheGivers.Helpers NuGet package.
             ReferenceNumber =
-                "GOTG-" +
-                DateTime.Now.ToString("yyyyMMdd") +
-                "-" +
-                Guid.NewGuid().ToString("N").Substring(0, 6).ToUpper();
+                TaxCertificateHelper.GenerateCertificateNumber(donationId);
         }
     }
 }
