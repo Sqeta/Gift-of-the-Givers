@@ -36,8 +36,14 @@ steps:
 # STEP 3 - RESTORE DEPENDENCIES
 # ==========================================
 
-- script: dotnet restore "GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj"
+- task: DotNetCoreCLI@2
   displayName: 'Restore test project dependencies'
+  inputs:
+    command: 'restore'
+    projects: 'GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj'
+    feedsToUse: 'select'
+    vstsFeed: 'ST10452934'
+    includeNuGetOrg: true
 
 # ==========================================
 # STEP 4 - BUILD THE SOLUTION
