@@ -1,211 +1,240 @@
 
-using Gift_of_the_Givers.Data;
-using Gift_of_the_Givers.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+    using Gift_of_the_Givers.Data;
+    using Gift_of_the_Givers.Models;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+    var builder = WebApplication.CreateBuilder(args);
 
-// ==========================================
-// RAZOR PAGES
-// ==========================================
+    // ==========================================
+    // RAZOR PAGES
+    // ==========================================
 
-builder.Services.AddRazorPages();
+    builder.Services.AddRazorPages();
 
-// ==========================================
-// DATABASE
-// ==========================================
+    // ==========================================
+    // DATABASE - AZURE SQL
+    // ==========================================
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    // Integration tests replace this with
-    // an in-memory database.
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    );
-});
-
-// ==========================================
-// PROTOTYPE IN-MEMORY STORAGE
-// ==========================================
-
-builder.Services.AddSingleton<PrototypeStore>();
-
-// ==========================================
-// ASP.NET IDENTITY
-// ==========================================
-
-builder.Services
-    .AddIdentity<IdentityUser, IdentityRole>(options =>
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
     {
-        options.Password.RequireDigit = false;
-        options.Password.RequireLowercase = false;
-        options.Password.RequireUppercase = false;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequiredLength = 6;
+        // Integration tests can replace this
+        // configuration with an in-memory database.
 
-        options.User.RequireUniqueEmail = true;
-    })
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
-// ==========================================
-// LOGIN SETTINGS
-// ==========================================
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Login";
-    options.AccessDeniedPath = "/AccessDenied";
-});
-
-// ==========================================
-// BUILD APPLICATION
-// ==========================================
-
-var app = builder.Build();
-
-// ==========================================
-// DATABASE INITIALISATION
-// ==========================================
-
-// Integration tests manage their own database.
-// Never seed the test employee in production.
-
-if (!app.Environment.IsEnvironment("Testing"))
-{
-    using var scope = app.Services.CreateScope();
-
-    var services = scope.ServiceProvider;
-
-    var dbContext =
-        services.GetRequiredService<ApplicationDbContext>();
-
-    dbContext.Database.EnsureCreated();
-
-    var roleManager =
-        services.GetRequiredService<RoleManager<IdentityRole>>();
-
-    string[] roles =
-    {
-        "Employee",
-        "Donor"
-    };
-
-    foreach (string role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            var roleResult = await roleManager.CreateAsync(
-                new IdentityRole(role)
-            );
-
-            if (!roleResult.Succeeded)
+        options.UseSqlServer(
+            builder.Configuration.GetConnectionString("DefaultConnection"),
+            sqlOptions =>
             {
-                throw new InvalidOperationException(
-                    "Could not create role: " + role
+                // Retry temporary Azure SQL failures.
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
+                    errorNumbersToAdd: null
                 );
             }
-        }
-    }
+        );
+    });
 
     // ==========================================
-    // DEVELOPMENT TEST EMPLOYEE
+    // PROTOTYPE IN-MEMORY STORAGE
     // ==========================================
 
-    if (app.Environment.IsDevelopment())
-    {
-        var userManager =
-            services.GetRequiredService<UserManager<IdentityUser>>();
+    builder.Services.AddSingleton<PrototypeStore>();
 
-        string? employeeEmail =
-            app.Configuration["TestEmployee:Email"];
+    // ==========================================
+    // ASP.NET IDENTITY
+    // ==========================================
 
-        string? employeePassword =
-            app.Configuration["TestEmployee:Password"];
-
-        if (!string.IsNullOrWhiteSpace(employeeEmail) &&
-            !string.IsNullOrWhiteSpace(employeePassword))
+    builder.Services
+        .AddIdentity<IdentityUser, IdentityRole>(options =>
         {
-            var employee =
-                await userManager.FindByEmailAsync(employeeEmail);
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 6;
 
-            if (employee == null)
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
+
+    // ==========================================
+    // LOGIN SETTINGS
+    // ==========================================
+
+    builder.Services.ConfigureApplicationCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/AccessDenied";
+    });
+
+    // ==========================================
+    // BUILD APPLICATION
+    // ==========================================
+
+    var app = builder.Build();
+
+    // ==========================================
+    // DATABASE INITIALISATION
+    // ==========================================
+
+    // Integration tests manage their own database.
+    // Never seed the test employee in production.
+
+    if (!app.Environment.IsEnvironment("Testing"))
+    {
+        try
+        {
+            using var scope = app.Services.CreateScope();
+
+            var services = scope.ServiceProvider;
+
+            var dbContext =
+                services.GetRequiredService<ApplicationDbContext>();
+
+            // Initialise database if accessible.
+            // A temporary failure must not stop
+            // the entire website from starting.
+            dbContext.Database.EnsureCreated();
+
+            var roleManager =
+                services.GetRequiredService<RoleManager<IdentityRole>>();
+
+            string[] roles =
             {
-                employee = new IdentityUser
-                {
-                    UserName = employeeEmail,
-                    Email = employeeEmail,
-                    EmailConfirmed = true
-                };
+                "Employee",
+                "Donor"
+            };
 
-                var createResult =
-                    await userManager.CreateAsync(
-                        employee,
-                        employeePassword
-                    );
-
-                if (!createResult.Succeeded)
+            foreach (string role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
                 {
-                    throw new InvalidOperationException(
-                        "Could not create test employee: " +
-                        string.Join(
-                            "; ",
-                            createResult.Errors.Select(e => e.Description)
-                        )
-                    );
+                    var roleResult =
+                        await roleManager.CreateAsync(
+                            new IdentityRole(role)
+                        );
+
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new InvalidOperationException(
+                            "Could not create role: " + role
+                        );
+                    }
                 }
             }
 
-            if (!await userManager.IsInRoleAsync(
-                    employee,
-                    "Employee"))
-            {
-                var roleResult =
-                    await userManager.AddToRoleAsync(
-                        employee,
-                        "Employee"
-                    );
+            // ==========================================
+            // DEVELOPMENT TEST EMPLOYEE
+            // ==========================================
 
-                if (!roleResult.Succeeded)
+            if (app.Environment.IsDevelopment())
+            {
+                var userManager =
+                    services.GetRequiredService<UserManager<IdentityUser>>();
+
+                string? employeeEmail =
+                    app.Configuration["TestEmployee:Email"];
+
+                string? employeePassword =
+                    app.Configuration["TestEmployee:Password"];
+
+                if (!string.IsNullOrWhiteSpace(employeeEmail) &&
+                    !string.IsNullOrWhiteSpace(employeePassword))
                 {
-                    throw new InvalidOperationException(
-                        "Could not assign Employee role."
-                    );
+                    var employee =
+                        await userManager.FindByEmailAsync(employeeEmail);
+
+                    if (employee == null)
+                    {
+                        employee = new IdentityUser
+                        {
+                            UserName = employeeEmail,
+                            Email = employeeEmail,
+                            EmailConfirmed = true
+                        };
+
+                        var createResult =
+                            await userManager.CreateAsync(
+                                employee,
+                                employeePassword
+                            );
+
+                        if (!createResult.Succeeded)
+                        {
+                            throw new InvalidOperationException(
+                                "Could not create test employee: " +
+                                string.Join(
+                                    "; ",
+                                    createResult.Errors.Select(
+                                        e => e.Description
+                                    )
+                                )
+                            );
+                        }
+                    }
+
+                    if (!await userManager.IsInRoleAsync(
+                            employee,
+                            "Employee"))
+                    {
+                        var roleResult =
+                            await userManager.AddToRoleAsync(
+                                employee,
+                                "Employee"
+                            );
+
+                        if (!roleResult.Succeeded)
+                        {
+                            throw new InvalidOperationException(
+                                "Could not assign Employee role."
+                            );
+                        }
+                    }
                 }
             }
         }
+        catch (Exception ex)
+        {
+            // Log startup database errors without
+            // terminating the entire web application.
+            app.Logger.LogError(
+                ex,
+                "Database initialisation failed. " +
+                "The application will continue starting."
+            );
+        }
     }
-}
 
-// ==========================================
-// REQUEST PIPELINE
-// ==========================================
+    // ==========================================
+    // REQUEST PIPELINE
+    // ==========================================
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Error");
+        app.UseHsts();
+    }
 
-app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+    app.UseStaticFiles();
 
-app.UseRouting();
+    app.UseRouting();
 
-app.UseAuthentication();
+    app.UseAuthentication();
 
-app.UseAuthorization();
+    app.UseAuthorization();
 
-app.MapRazorPages();
+    app.MapRazorPages();
 
-app.Run();
+    app.Run();
 
-// ==========================================
-// INTEGRATION TEST SUPPORT
-// ==========================================
+    // ==========================================
+    // INTEGRATION TEST SUPPORT
+    // ==========================================
 
-public partial class Program
-{
-}
+    public partial class Program
+    {
+    }

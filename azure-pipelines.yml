@@ -1,11 +1,11 @@
 
 # ==========================================
 # GIFT OF THE GIVERS
-# PART 3 - AUTOMATED TESTING PIPELINE
+# PART 3 - AUTOMATED TESTING AND SQL DEPLOYMENT
 # ==========================================
 
 trigger:
-- master
+  - master
 
 pool:
   vmImage: 'windows-latest'
@@ -46,23 +46,28 @@ steps:
     includeNuGetOrg: true
 
 # ==========================================
-# STEP 4 - BUILD THE SOLUTION
+# STEP 4 - BUILD TEST PROJECT
 # ==========================================
 
-- script: dotnet build "GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj" --configuration $(buildConfiguration) --no-restore
+- script: >
+    dotnet build
+    "GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj"
+    --configuration $(buildConfiguration)
+    --no-restore
   displayName: 'Build test project'
 
 # ==========================================
 # STEP 5 - RUN AUTOMATED TESTS
 # ==========================================
 
-# Exclude Selenium tests because they require
-# a locally running website and Chrome browser.
+# Selenium tests are excluded because they
+# require a running local website and Chrome.
 
 - script: >
     dotnet test
     "GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj"
     --configuration $(buildConfiguration)
+    --no-build
     --filter "FullyQualifiedName!~SeleniumTests"
     --logger "trx;LogFileName=automated-tests.trx"
     --results-directory "$(Agent.TempDirectory)/TestResults"
@@ -81,3 +86,38 @@ steps:
     searchFolder: '$(Agent.TempDirectory)/TestResults'
     failTaskOnFailedTests: true
     testRunTitle: 'Gift of the Givers Automated Tests'
+
+# ==========================================
+# STEP 7 - DEPLOY AZURE SQL SCHEMA UPDATE
+# ==========================================
+
+- task: SqlAzureDacpacDeployment@1
+  displayName: 'Deploy Azure SQL schema update'
+  inputs:
+    azureSubscription: 'GiftOfTheGivers-AzureConnection'
+    AuthenticationType: 'server'
+    ServerName: 'giftofthegivers-karabo-sql.database.windows.net'
+    DatabaseName: 'GiftOfTheGiversDB'
+    SqlUsername: '$(SqlAdminUsername)'
+    SqlPassword: '$(SqlAdminPassword)'
+    deployType: 'SqlTask'
+    SqlFile: '$(Build.SourcesDirectory)/Gift of the Givers/Database/001_AddLastUpdatedToReliefProjects.sql'
+    IpDetectionMethod: 'AutoDetect'
+
+  
+# ==========================================
+# STEP 10 - DEPLOY AZURE SQL SCHEMA UPDATE
+# ==========================================
+
+- task: SqlAzureDacpacDeployment@1
+  displayName: 'Deploy Azure SQL schema update'
+  inputs:
+    azureSubscription: 'GiftOfTheGivers-AzureConnection'
+    AuthenticationType: 'server'
+    ServerName: 'giftofthegivers-karabo-sql.database.windows.net'
+    DatabaseName: 'GiftOfTheGiversDB'
+    SqlUsername: '$(SqlAdminUsername)'
+    SqlPassword: '$(SqlAdminPassword)'
+    deployType: 'SqlTask'
+    SqlFile: '$(Build.SourcesDirectory)/Gift of the Givers/Database/001_AddLastUpdatedToReliefProjects.sql'
+    IpDetectionMethod: 'AutoDetect'
